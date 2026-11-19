@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#E2580B">
+<title>Registro Día Naranja 25N</title>
+<meta name="description" content="Registro de asistencia a la expo del Día Naranja 25N.">
+<meta property="og:title" content="Registro · Día Naranja 25N">
+<meta property="og:description" content="Regístrate y confirma tu asistencia a la expo del Día Naranja.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,800;62..125,900&family=Source+Sans+3:wght@400;600;700&display=swap">
+<script>
+  /* ============================================================
+     PEGA AQUÍ la URL de tu Apps Script (termina en /exec)
+     ============================================================ */
+  var URL_SCRIPT = "https://script.google.com/macros/s/AKfycbxKqSCRXNxmQs35W4pZbmf1oj96yMcSDFuCXzkfzt-AAvcHm67NggsUkDN4y5U5Zsc/exec";
+</script>
+<style>
+/* Layout: banda naranja corta con logos → una tarjeta blanca con el formulario → pantalla de confirmación en el mismo lugar */
+:root{
+  --naranja:#E2580B;
+  --naranja-hover:#C94C08;
+  --tinta:#0C1A2E;
+  --papel:#FFF8F2;
+  --superficie:#FFFFFF;
+  --hundido:#F6E7DB;
+  --linea:#F1D9C8;
+  --suave:#5B4A40;
+  --error:#B3261E;
+  --ok:#1B5E20;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --texto:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:var(--texto);font-size:17px;line-height:1.5}
+img{max-width:100%}
+[hidden]{display:none!important}
+.envoltura{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:3px solid var(--tinta);outline-offset:3px}
+
+.portada{background:var(--naranja);color:#FFF8F2}
+.portada .envoltura{padding-block:24px 72px}
+.logos{display:block;height:56px;width:auto;margin-bottom:18px}
+.sello{font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.92}
+h1{font-family:var(--display);font-weight:900;font-stretch:88%;font-size:clamp(44px,11vw,72px);line-height:.9;letter-spacing:-.02em;margin:10px 0 8px}
+.portada p{margin:0;font-size:18px;max-width:34ch}
+
+.tarjeta{background:var(--superficie);border:1px solid var(--linea);border-radius:16px;padding:24px 22px 26px;margin-top:-48px;box-shadow:0 10px 30px rgba(12,26,46,.08)}
+@media (max-width:420px){.tarjeta{padding:20px 16px 22px}}
+
+form{display:flex;flex-direction:column;gap:22px}
+.campo{display:flex;flex-direction:column;gap:6px;border:0;margin:0;padding:0;min-width:0}
+.campo>label,.campo>legend{font-weight:700;font-size:16px;padding:0}
+.campo .ayuda{font-size:14px;color:var(--suave);margin:0}
+input[type=text],input[type=number],select{width:100%;min-height:52px;padding:12px 14px;border:1.5px solid var(--linea);border-radius:10px;background:var(--papel);color:var(--tinta);font:400 17px var(--texto)}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--naranja) 50%),linear-gradient(135deg,var(--naranja) 50%,transparent 50%);background-position:calc(100% - 22px) 50%,calc(100% - 16px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
+input:focus,select:focus{outline:none;border-color:var(--naranja);box-shadow:0 0 0 3px rgba(226,88,11,.2)}
+.campo.invalido input,.campo.invalido select{border-color:var(--error)}
+.msg-error{color:var(--error);font-size:14px;font-weight:600;margin:0;min-height:0}
+.edad{max-width:140px}
+
+.opciones{display:flex;flex-wrap:wrap;gap:8px}
+.opcion{position:relative;flex:1 1 auto}
+.opcion input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.opcion span{display:flex;align-items:center;justify-content:center;min-height:50px;padding:10px 16px;border:1.5px solid var(--linea);border-radius:999px;background:var(--papel);font-weight:600;text-align:center;cursor:pointer}
+.opcion input:checked+span{background:var(--tinta);border-color:var(--tinta);color:#FFF8F2}
+.opcion input:focus-visible+span{outline:3px solid var(--naranja);outline-offset:2px}
+.asistencia .opcion{flex:1 1 200px}
+.asistencia .opcion input:checked+span.si{background:var(--naranja);border-color:var(--naranja)}
+.campo.invalido .opcion span{border-color:var(--error)}
+
+.privacidad{font-size:14px;color:var(--suave);background:var(--hundido);border-radius:10px;padding:12px 14px;margin:0}
+.enviar{min-height:56px;border:0;border-radius:12px;background:var(--naranja);color:#FFF8F2;font:700 18px var(--texto);cursor:pointer}
+.enviar:hover{background:var(--naranja-hover)}
+.enviar:disabled{opacity:.6;cursor:wait}
+.estado{margin:0;font-size:15px;font-weight:600;color:var(--error);text-align:center}
+.aviso-config{background:#FFF4CC;border:1.5px solid #F2B705;border-radius:10px;padding:12px 14px;font-size:14px;margin:0 0 18px}
+
+.listo{text-align:center;padding:12px 4px}
+.listo .palomita{width:72px;height:72px;border-radius:50%;background:var(--naranja);color:#FFF8F2;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.listo .palomita svg{width:38px;height:38px}
+.listo h2{font-family:var(--display);font-weight:900;font-size:clamp(30px,7vw,40px);line-height:1;margin:0 0 10px}
+.listo p{margin:0 auto;max-width:36ch;color:var(--suave)}
+.listo .acciones{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.boton2{display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:12px;font-weight:700;text-decoration:none;border:1.5px solid var(--linea);color:var(--tinta);background:transparent;font-size:16px;cursor:pointer;font-family:var(--texto)}
+.boton2.lleno{background:var(--tinta);border-color:var(--tinta);color:#FFF8F2}
+
+footer .envoltura{padding-block:28px 40px;text-align:center;font-size:14px;color:var(--suave)}
+footer a{color:var(--naranja);font-weight:700;text-decoration:none}
+@media (prefers-reduced-motion:no-preference){.opcion span,.enviar{transition:background .15s,border-color .15s,color .15s}}
+</style>
+</head>
+<body>
+
+<header class="portada">
+  <div class="envoltura">
+    <img class="logos" src="../logos.png" alt="Universidad de Santa Fe · Facultad de la Salud" width="357" height="180">
+    <div class="sello">Día naranja · 25 de noviembre</div>
+    <h1>Registro</h1>
+    <p>Llena tus datos y confirma si vas a asistir. Toma menos de un minuto.</p>
+  </div>
+</header>
+
+<main class="envoltura">
+  <div class="tarjeta">
+    <p class="aviso-config" id="aviso-config" hidden>Falta pegar la URL de Google Sheets en este archivo (URL_SCRIPT). Mientras tanto, los registros no se guardan.</p>
+
+    <form id="registro" novalidate>
+      <div class="campo" id="c-nombre">
+        <label for="nombre">Nombre completo</label>
+        <input type="text" id="nombre" name="nombre" autocomplete="name" maxlength="120" placeholder="Nombre(s) y apellidos" required>
+        <p class="msg-error" id="e-nombre"></p>
+      </div>
+
+      <div class="campo" id="c-carrera">
+        <label for="carrera">Carrera</label>
+        <select id="carrera" name="carrera" required>
+          <option value="" selected disabled>Elige tu carrera</option>
+          <option>Medicina</option>
+          <option>Enfermería</option>
+          <option>Psicología</option>
+          <option>Nutrición</option>
+          <option>Fisioterapia</option>
+          <option>Derecho</option>
+          <option>Sistemas</option>
+          <option>Arquitectura</option>
+          <option>Otra</option>
+        </select>
+        <input type="text" id="carrera-otra" name="carrera_otra" maxlength="80" placeholder="Escribe tu carrera" hidden>
+        <p class="msg-error" id="e-carrera"></p>
+      </div>
+
+      <div class="campo" id="c-edad">
+        <label for="edad">Edad</label>
+        <input class="edad" type="number" id="edad" name="edad" inputmode="numeric" min="15" max="99" placeholder="Años" required>
+        <p class="msg-error" id="e-edad"></p>
+      </div>
+
+      <fieldset class="campo" id="c-sexo">
+        <legend>Sexo</legend>
+        <div class="opciones">
+          <label class="opcion"><input type="radio" name="sexo" id="sexo-mujer" value="Mujer"><span>Mujer</span></label>
+          <label class="opcion"><input type="radio" name="sexo" id="sexo-hombre" value="Hombre"><span>Hombre</span></label>
+          <label class="opcion"><input type="radio" name="sexo" id="sexo-nd" value="Prefiero no decir"><span>Prefiero no decir</span></label>
+        </div>
+        <p class="msg-error" id="e-sexo"></p>
+      </fieldset>
+
+      <fieldset class="campo asistencia" id="c-asistencia">
+        <legend>¿Vas a asistir?</legend>
+        <div class="opciones">
+          <label class="opcion"><input type="radio" name="asistencia" id="asis-si" value="Sí asistiré"><span class="si">Sí asistiré</span></label>
+          <label class="opcion"><input type="radio" name="asistencia" id="asis-no" value="No asistiré"><span>No asistiré</span></label>
+        </div>
+        <p class="msg-error" id="e-asistencia"></p>
+      </fieldset>
+
+      <p class="privacidad">Tus datos solo se usan para el registro de asistencia de la campaña del Día Naranja y no se comparten con nadie.</p>
+
+      <button class="enviar" type="submit" id="enviar">Enviar registro</button>
+      <p class="estado" id="estado" role="status"></p>
+    </form>
+
+    <div class="listo" id="listo" hidden tabindex="-1">
+      <div class="palomita"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 id="listo-titulo">¡Listo!</h2>
+      <p id="listo-texto">Tu registro quedó guardado.</p>
+      <div class="acciones">
+        <a class="boton2 lleno" href="../">Ver materiales y teléfonos de ayuda</a>
+        <a class="boton2" href="https://www.instagram.com/entrenosotras.usf/" target="_blank" rel="noopener">Síguenos en Instagram</a>
+        <button class="boton2" type="button" id="otro">Registrar a otra persona</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="envoltura">Medicina · Universidad de Santa Fe · <a href="https://www.instagram.com/entrenosotras.usf/" target="_blank" rel="noopener">@entrenosotras.usf</a></div>
+</footer>
+
+<script>
+(function(){
+  var configurado = /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(URL_SCRIPT);
+  if (!configurado) document.getElementById('aviso-config').hidden = false;
+
+  var form = document.getElementById('registro');
+  var carrera = document.getElementById('carrera');
+  var otra = document.getElementById('carrera-otra');
+  var boton = document.getElementById('enviar');
+  var estado = document.getElementById('estado');
+  var listo = document.getElementById('listo');
+
+  carrera.addEventListener('change', function(){
+    otra.hidden = carrera.value !== 'Otra';
+    if (!otra.hidden) otra.focus();
+  });
+
+  function marcar(id, msg){
+    document.getElementById('c-' + id).classList.toggle('invalido', !!msg);
+    document.getElementById('e-' + id).textContent = msg || '';
+    return !msg;
+  }
+  function elegido(nombre){
+    var r = form.querySelector('input[name="' + nombre + '"]:checked');
+    return r ? r.value : '';
+  }
+  function limpiar(t){ return t.replace(/\s+/g, ' ').trim(); }
+
+  // Quita el error en cuanto la persona corrige
+  form.addEventListener('input', function(ev){
+    var c = ev.target.closest('.campo');
+    if (c && c.classList.contains('invalido')) { c.classList.remove('invalido'); c.querySelector('.msg-error').textContent = ''; }
+  });
+  form.addEventListener('change', function(ev){
+    var c = ev.target.closest('.campo');
+    if (c && c.classList.contains('invalido')) { c.classList.remove('invalido'); c.querySelector('.msg-error').textContent = ''; }
+  });
+
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    estado.textContent = '';
+
+    var nombre = limpiar(document.getElementById('nombre').value);
+    var carr = carrera.value === 'Otra' ? limpiar(otra.value) : carrera.value;
+    var edadTxt = document.getElementById('edad').value.trim();
+    var edad = parseInt(edadTxt, 10);
+    var sexo = elegido('sexo');
+    var asistencia = elegido('asistencia');
+
+    var ok = true;
+    ok = marcar('nombre', nombre.split(' ').length < 2 ? 'Escribe tu nombre y al menos un apellido.' : '') && ok;
+    ok = marcar('carrera', !carrera.value ? 'Elige tu carrera.' : (carrera.value === 'Otra' && !carr ? 'Escribe el nombre de tu carrera.' : '')) && ok;
+    ok = marcar('edad', !edadTxt ? 'Escribe tu edad.' : (isNaN(edad) || edad < 15 || edad > 99 ? 'Escribe una edad entre 15 y 99 años.' : '')) && ok;
+    ok = marcar('sexo', !sexo ? 'Elige una opción.' : '') && ok;
+    ok = marcar('asistencia', !asistencia ? 'Dinos si vas a asistir.' : '') && ok;
+    if (!ok) {
+      var primero = form.querySelector('.invalido input, .invalido select');
+      if (primero) primero.focus();
+      return;
+    }
+    if (!configurado) { estado.textContent = 'El registro todavía no está conectado a Google Sheets.'; return; }
+
+    var datos = new URLSearchParams();
+    datos.append('nombre', nombre);
+    datos.append('carrera', carrera.value === 'Otra' ? 'Otra: ' + carr : carr);
+    datos.append('edad', String(edad));
+    datos.append('sexo', sexo);
+    datos.append('asistencia', asistencia);
+
+    boton.disabled = true;
+    boton.textContent = 'Enviando…';
+
+    // no-cors: Google guarda el registro aunque la página no pueda leer la respuesta
+    fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: datos })
+      .then(function(){
+        var primerNombre = nombre.split(' ')[0];
+        document.getElementById('listo-titulo').textContent = '¡Listo, ' + primerNombre + '!';
+        document.getElementById('listo-texto').textContent = asistencia === 'Sí asistiré'
+          ? 'Tu registro quedó guardado. Te esperamos en la expo del Día Naranja.'
+          : 'Tu registro quedó guardado. Gracias por avisarnos.';
+        form.hidden = true;
+        listo.hidden = false;
+        listo.focus();
+        window.scrollTo(0, 0);
+      })
+      .catch(function(){
+        estado.textContent = 'No se pudo enviar. Revisa tu conexión a internet e inténtalo de nuevo.';
+      })
+      .then(function(){
+        boton.disabled = false;
+        boton.textContent = 'Enviar registro';
+      });
+  });
+
+  document.getElementById('otro').addEventListener('click', function(){
+    form.reset();
+    otra.hidden = true;
+    listo.hidden = true;
+    form.hidden = false;
+    document.getElementById('nombre').focus();
+  });
+})();
+</script>
+</body>
+</html>
